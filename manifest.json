@@ -1,0 +1,14 @@
+{
+  "name": "Apna Note",
+  "short_name": "Apna Note",
+  "description": "Bengali and English notes app by Mainul Islam",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "lang": "bn",
+  "background_color": "#eef3f6",
+  "theme_color": "#0f6b75",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
