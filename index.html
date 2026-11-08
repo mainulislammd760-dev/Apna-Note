@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>আপনা নোট · Apna Note</title>
+<title>Apna Note · Mainul Islam</title>
+<meta name="theme-color" content="#0f6b75">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#eef3f6;--s:#fff;--ink:#14232e;--mut:#5d6f7c;--line:#d6e0e6;--brand:#0f6b75;--bi:#fff;--c1:#d8f0ea;--c2:#fde9c9;--c3:#e3e6fb;--c4:#fbdde4;--red:#b3261e}
@@ -12,8 +16,9 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",system-ui,sans-serif;font-size:17px;line-height:1.6}
 .wrap{max-width:760px;margin:0 auto;padding:16px}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-h1{font-size:1.7rem;margin:0}
-h1 small{display:block;font-size:.85rem;font-weight:400;color:var(--mut)}
+.brand{display:flex;align-items:center;gap:12px}
+h1{font-size:1.7rem;margin:0;line-height:1.2}
+h1 small{display:block;font-size:.9rem;font-weight:400;color:var(--mut)}
 button{font:inherit;cursor:pointer;border:0;border-radius:10px}
 .icon{background:var(--s);color:var(--ink);border:1px solid var(--line);width:44px;height:44px;font-size:1.2rem}
 .search{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--s);color:var(--ink);font:inherit;margin-bottom:14px}
@@ -38,12 +43,16 @@ button{font:inherit;cursor:pointer;border:0;border-radius:10px}
 .acts .del{color:var(--red)}
 .pin{font-size:.8rem;color:var(--brand);font-weight:600}
 .empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:36px 12px;border:2px dashed var(--line);border-radius:16px}
+footer{text-align:center;color:var(--mut);font-size:.85rem;padding:24px 0 8px}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>আপনা নোট<small>Apna Note · বাংলা ও English</small></h1>
+<div class="brand">
+<svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="var(--brand)"/><path d="M14 10h14l8 8v20a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2z" fill="#fff"/><path d="M28 10v6a2 2 0 0 0 2 2h6z" fill="#b9dfe3"/><rect x="16" y="23" width="16" height="2.5" rx="1.2" fill="var(--brand)"/><rect x="16" y="29" width="12" height="2.5" rx="1.2" fill="var(--brand)"/><rect x="16" y="35" width="8" height="2.5" rx="1.2" fill="var(--brand)"/></svg>
+<h1>Apna Note<small>Mainul Islam</small></h1>
+</div>
 <button class="icon" id="theme" aria-label="থিম">◐</button>
 </header>
 <section class="editor">
@@ -59,6 +68,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:10px}
 </section>
 <input class="search" id="q" type="search" placeholder="নোট খুঁজুন / Search notes">
 <main class="grid" id="list"></main>
+<footer>Apna Note · Made by Mainul Islam</footer>
 </div>
 <script>
 var KEY="apna-note-v1",notes=[],color=1,editId=null;
@@ -67,7 +77,7 @@ try{notes=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){notes=[]}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(notes))}catch(e){}}
 function esc(s){return s.replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function setSw(){var b=$("sw").children;for(var i=0;i<b.length;i++)b[i].className="sw"+(i+1===color?" on":"")}
-for(var i=1;i<=4;i++){(function(i){var b=document.createElement("button");b.className="sw";b.style.background="var(--c"+i+")";b.onclick=function(){color=i;setSw()};$("sw").appendChild(b)})(i)}
+for(var i=1;i<=4;i++){(function(i){var b=document.createElement("button");b.className="sw";b.style.background="var(--c"+i+")";b.setAttribute("aria-label","রঙ "+i);b.onclick=function(){color=i;setSw()};$("sw").appendChild(b)})(i)}
 setSw();
 function reset(){editId=null;$("title").value="";$("body").value="";$("cancel").hidden=true;$("save").textContent="নোট সেভ করুন"}
 $("save").onclick=function(){
@@ -93,7 +103,7 @@ var root=document.documentElement;
 try{var th=localStorage.getItem("apna-theme");if(th)root.dataset.theme=th}catch(e){}
 $("theme").onclick=function(){root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";try{localStorage.setItem("apna-theme",root.dataset.theme)}catch(e){}};
 render();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
 </script>
 </body>
 </html>
-
